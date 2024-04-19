@@ -1,0 +1,45 @@
+Week 1: 
+	Caesar - introductory example, based on y = x + b <=> x = y -b. 
+	Modular arithmetic of the integer ring modulo n. 
+	Unitary commutative rings - as an abstract complement to this concrete situation. 
+	Fields. 
+	Groups - not introduced yet. 
+
+Week 2: 
+	In finite un. com. rings, a non-zero element is either invertible or a zero divisor. 
+	Z_n is a field <=> n prime number. The proof I give does not suggest any efficient computations. 
+	Need for efficient computations for multi-digit n. 
+	gcd computation over integers help: Euclidean Algorithm (EA) and its extended version. 
+	Extended Euclidean algorithm is a reverse of the Gaussian elimination, where
+	you work over integers start with a solution and look for an equation. In each
+	iteration you try to simplify the right hand side. 
+
+Week 3: 
+	Euclidean Algorithm is efficient: every two iterations, the bit length of the smaller number 
+	in the pair is guaranteed to drop. 
+	Example: 13, 21. https://ask.sagemath.org/question/36033/sage-code-for-decimal-to-binary-expansion/
+	Link between gcd and invertibility in Z_n. 
+	Little Fermat and invertible power functions. 
+	Why are power functions good for cryptography. Picture. 
+	How to compute powers efficiently? 
+
+Week 4: 
+	Chinese Remainder theorem
+	Example: 15 position switch vs. two switches with 5 and 3 positions. 
+	Def. Functions between rings: homomorphisms, isomorphisms. 
+	Power functions modulo s t for gcd(s,t)=1. Hard to invert if you don't know s and t. 
+	RSA
+	Example to RSA
+
+Week 5: 
+	Do we have enough primes? 
+	How do we know a number is prime? Efficient tests? Practical tests? 
+	Is it hard to find prime factorization? 
+	
+
+	
+	
+	
+
+
+	
