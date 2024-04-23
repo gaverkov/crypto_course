@@ -1,6 +1,7 @@
 Week 1: 
-	Caesar - introductory example, based on y = x + b <=> x = y -b. 
-	Modular arithmetic of the integer ring modulo n. 
+	Intro 0: Caesar - introductory example, based on y = x + b <=> x = y -b. 
+	Public key crypto 1: 
+	1.1. Rings, modular: Modular arithmetic of the integer ring modulo n. 
 	Unitary commutative rings - as an abstract complement to this concrete situation. 
 	Fields. 
 	Groups - not introduced yet. 
@@ -9,7 +10,7 @@ Week 2:
 	In finite un. com. rings, a non-zero element is either invertible or a zero divisor. 
 	Z_n is a field <=> n prime number. The proof I give does not suggest any efficient computations. 
 	Need for efficient computations for multi-digit n. 
-	gcd computation over integers help: Euclidean Algorithm (EA) and its extended version. 
+	back to integers 1.2: gcd computation over integers help: Euclidean Algorithm (EA) and its extended version. 
 	Extended Euclidean algorithm is a reverse of the Gaussian elimination, where
 	you work over integers start with a solution and look for an equation. In each
 	iteration you try to simplify the right hand side. 
