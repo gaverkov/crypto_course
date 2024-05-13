@@ -1,0 +1,160 @@
+%\documentclass[handout]{beamer}
+\documentclass{beamer}
+\usetheme{default}
+\usepackage{amsmath}
+\usepackage{amssymb} 
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\N}{\mathbb{N}}
+
+\title{RSA cryptosystem in a nutshell}
+\author{G. Averkov \\ Brandenburg University of Technology}
+\begin{document}
+\begin{frame}[plain]
+    \maketitle
+\end{frame}
+
+\begin{frame}
+	The original 1978 paper of Rivest, Shamir and Adleman is just 7 pages long, written in a clear and non-technical language. 
+	\pause 
+	\url{https://doi.org/10.1145/359340.359342}
+	\vspace{5mm} \\
+	\pause
+	Quote from Wikipedia: 
+	\pause 
+	\\ 
+	\vspace{5mm} 
+	In April 1977, they  spent Passover at the house of a student and drank a good deal of wine before returning to their homes at around midnight. \pause Rivest, unable to sleep, lay on the couch with a math textbook and started thinking about their one-way function. \pause He spent the rest of the night formalizing his idea, and he had much of the paper ready by daybreak. \pause The algorithm is now known as RSA – the initials of their surnames in same order as their paper.
+\end{frame} 
+
+\begin{frame}
+	\pause 
+	Alice 
+	\begin{itemize}[<+->] 
+		\item   chooses multi-digit prime numbers $p$ and $q$ with $p \ne q$, which she does not disclose to anyone. 
+		\item  calculates $n = p q$ and fixes an exponent $e \in \N$ such that $\gcd( e, (p-1) (q-1)) = 1$. 
+		\item fixes $(e,n)$ as a public key and makes it available to everyone, so that anybody can send her a plain text message $x \in \Z_n$ encrypted via the power function $x^e$. 
+		\item calculates $d \in \N$ such that $d e \equiv 1 \mod (p-1) (q-1)$ using the EEA. 
+		\item stores $(d,n)$ as a private key in order to use the power function $x^d$ on $\Z_n$ for decryption. 
+	\end{itemize} 
+\end{frame}
+
+\begin{frame}
+	\pause 
+Anytime Bob has a message $x \in \Z_n$ to be sent to Alice, he 
+\begin{itemize}[<+->] 
+	\item sends the plain text $x$ to Alice as the cipher text $y = x^e$
+	\item uses fast exponentiation to calculate $x^e$
+\end{itemize} 
+\pause 
+Then, Alice 
+\begin{itemize}[<+->]
+	\item receives $y = x^e$ from Bob
+	\item calculates $y^d = (x^e)^d = x^{ed} = x$, which is Bob's plain text (we use Lemma 10, here)
+	\item and uses fast exponentiation to calculate $y^d$
+\end{itemize} 
+\pause 
+\end{frame} 
+\begin{frame} 
+Eve
+\begin{itemize}[<+->]
+	\item may attempt to break the cryptosystem by trying to determine the private key from the public one. 
+	\item knows that if she gets $p$ and $q$ by factorizing $n = pq$ into prime factors, she can do the same computations that Alice did to generate the private key. 
+	\item does not know any elaborate way to factorize integers into primes. If the smaller of the two primes $p$ and $q$ has $k$ binary digits, then by just trying consecutively starting from $3$ all possible odd integers as possible divisors of $n$, would determine the smaller prime within about $2^k$ iterations. If $k$ is something like $200$, such an approach is by now means tractable. 
+	\begin{align*} 
+	2^{200} = & 160693804425899027554196209234
+		\\ & 1162602522202993782792835301376
+	\end{align*} 
+	With trillion iterations in a second,  one would break the cryptosystem in about $3 \cdot 10^{40}$ years. 
+\end{itemize} 
+\end{frame} 
+
+\begin{frame} 
+	Eve 
+\begin{itemize}[<+->]
+	\item can also try to to break a particular cipher text  $y$ she intercepts by looking for an appropriate $x$ that satisfies $x^e = y$. 
+	\item does not really have any idea of solving the equation $x^e = y$ in $x$ than just trying all elements of $\Z_n$ as possible values of $x$.  
+	\item runs into this tractability problem as with factorization of $n$ into prime factors. 
+\end{itemize} 
+\end{frame} 
+
+\begin{frame}
+	Eve may also try using 
+	\pause 
+	\begin{itemize}[<+->] 
+		\item  smarter algorithms for integer factorization (there are some that are faster, but the are still exponential-time in the bit size of $n$)
+		\item a quantum computer to factor integer in polynomial time in the bit size of $n$, but quantum computers that could do this  and have a large enough quantum memory do not seem to be available yet. 
+		\item ``dirty tricks'' (aka side-channel attack)
+	\end{itemize} 
+\end{frame} 
+
+\begin{frame}
+	Side channel attack. Eve, being a hacker, does not want to rack her brain over math and instead does this: 
+	\pause 
+	\begin{itemize}[<+->]
+		\item uses a spy process to track the power consumption of the device, on which deciphering is done 
+		\item Fast exponentiation for $y^d$ does one iteration for each binary digit of $d$. 
+		\item When the binary digit is $1$, there is squaring and multiplication
+		\item When the binary digit is $0$, there is only squaring. 
+		\item So, looking at the power profile, she detects the binary digits of $d$. 
+	\end{itemize} 
+	\pause
+	Alice can fend off this attack by making the implementation of fast exponentiation safe. 
+\end{frame} 
+
+\begin{frame} 
+	Are there enough primes? 
+	\begin{itemize}[<+->]
+		\item  Prime number theorem tells, roughly, that the probability of a random $k$-digit number to be prime is proportional to $1/k$. 
+		\item This means that, starting with a random odd number and then successively increasing this number by $2$ to get to the next odd number, one would get to a prime number in a reasonable amount of time. 
+	\end{itemize}
+	\pause 
+	Can one test a number for primality quickly? 
+	\begin{itemize}[<+->]
+		\item Yes, there is a primality test, whose running time is polynomial in the bit size of the number in the input. Manindra Agrawal, Neeraj Kayal and Nitin Saxena from Indian Institut of Technology Kanpur. Published in 2002. 
+		\item In practice, one usually employs a probabilistic test that can generate false positives. That is, if the number is discarded as composite, it is in fact composite. However, if the number is accepted as prime by the test, it is quite likely a prime but not for sure. 
+	\end{itemize} 
+\end{frame} 
+
+\begin{frame}
+	One-way function: 
+	\begin{itemize}[<+->]
+		\item Roughly speaking, a function that is easy to evaluate but hard to invert. 
+		\item Calculating $f(x)$ for given $x$ -- easy. 
+		\item Solving the equation $f(x) =y$ in unknown $x$ -- hard. 
+		\item We leave out the formal definition. 
+		\item Existence of one-way function is not proven yet (hard open problem). 
+		\item However, practically, we just want to make sure that the following is the case. 
+		\item We know how to calculate $f(x)$ for a given $x$ quickly
+		\item No one  is yet capable to solve the equation $f(x) = y$ for the unknown $x$ efficiently. 
+		\item In this respect, $x^e$ from the RSA is a ``one-way function from the practical perspective''
+	\end{itemize} 
+\end{frame} 
+
+\begin{frame} 
+	Alice can sign a message $x \in \Z_n$. 
+	\begin{itemize}[<+->] 
+		\item Calculate $s = x^d$, the so-called signature, and send it along with $x$.
+	\end{itemize} 
+	\pause 
+	Bob can verify that $x$ is a message from Alice as follows: 
+	\begin{itemize}[<+->]
+		\item Calculate $s^e = (x^d)^e = x$ and check that the message $x$ comes out. 
+	\end{itemize} 
+	In order to fake the $x$ signature, Eve
+	\begin{itemize} 
+		\item could either determine $d$, which is infeasible, as was described above 
+		\item or try to solve the equation $s^e = x$ for the unknown signature $s$, which is infeasible, too. 
+	\end{itemize} 
+\end{frame} 
+
+\begin{frame}
+	Some practical aspects, which we don't want to address in detail: 
+	\begin{itemize}[<+->] 
+		\item We presented RSA from the textbook. It contains the main idea, but in practice adjustments are made and details should be clarified. 
+		\item In order to convert any kind of data (texts etc.) into a number, one can convert any kind of symbols into bit sequences (ASCII encoding etc.) and then view a bit string as an integer written in the binary. 
+		\item Such an integer determines a coset modulo $n$. 
+		\item If the bit-strings are two long, then one could split them into blocks. In practice, it is important to make such a conversion properly to make the encryption safe (padding etc.) 
+		\item When one signs (long) messages, one signs not the original text $x$, but rather the hash value $h(x)$ of the text $x$, where $h$ is a so-called hash function. 
+	\end{itemize} 
+\end{frame} 
+\end{document}
