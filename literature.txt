@@ -1,0 +1,21 @@
+Several people asked me about the literature I would recommend for the course. Here are some recommendations.
+
+RSA:
+
+I've already recommended the chapter on the RSA from the book Cormen, Leiserson, Rivest and Stein. It gives a self-contained introduction in a lecture-class style. The original 1978 by the inventors (Rivest, Shamir, Adelman) is both short and clearly written.
+
+General cryptopgrahy books:
+
+Those of you who can read German could take a look at the book of W. Willems "Codierungstheorie und Kryptographie". The cryptography part of this book is about 40 pages long. So, it's a short introduction into the topic, but it does not cover DES and the zero-knowledge proofs.
+
+Some longer general books in Engish:
+
+Buchmann, 2004, Introduction to Cryptography. It's a relatively short book (about 300 pages) that covers all the topics of this module.
+
+Delfs, Knebl, 2015, Introduction to Cryptography. This one is longer  (about 500 pages) and covers even more material.
+
+Hoffstein, Pipher, Silverman, 2014, An  Introduction to Mathematical Cryptography. This is more than 500 pages long. I like the way elliptic curves are explained in this one (with pictures, the geometric intuition and examples).
+
+Literature on DES: 
+
+I do not know any literature in which one explains why DES is designed the way it is designed (having convincing motivation for design choices is what I am missing), rather than just explaining how it is designed. In some sources, there are a few comments about what properties and this kind of explanation looks like a mysterious cooking recipe for a magical drink. 
