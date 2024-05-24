@@ -38,7 +38,15 @@ Week 5:
 	Is it hard to find prime factorization? 
 	
 
-	
+Week 6,7: Sample exam theory. 
+	Groups, ElGamal
+
+Weeks 8-15: 
+	Another sample exam
+	ElGamal - generator choice, Diffie-Hellmann
+	AES, DES - fields, AES, DES 
+	Zero-knowledge proofs 
+	Elliptic Curves	
 	
 	
 
