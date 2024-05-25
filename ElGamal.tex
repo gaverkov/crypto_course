@@ -54,7 +54,7 @@
 \end{frame} 
 
 \begin{frame} 
-	The public domain contains $g^a$ and $g^b$. There seem to be no direct ways to get $g^{ab}$ out of $g^a$ and $g^b$. Eve could take powers of $g^a$ and $g^b$ and multiply them obtaining $(g^a)^i (g^b)^j = g^{i a + j b}$, but it is not clear which of these powers (if any) is equal to $g^{ab}$. So, there seems to be no other way than obtaining $a$ and $b$ by solving two instances of the DLP, then calculating $ab$ and raising $g$ to the power $ab$ to obtain $g^{ab}$. If Eve does not know any efficient ways to solve the DLP in the group $(G,\cdot)$, she will have hard time to proceed in this way. 
+	The public domain contains $g^a$ and $g^b$. There seem to be no direct ways to get $g^{ab}$ out of $g^a$ and $g^b$. Eve could take powers of $g^a$ and $g^b$ and multiply them obtaining $(g^a)^i (g^b)^j = g^{i a + j b}$, but it is not clear which of these powers are equal to $g^{ab}$. So, there seems to be no other way than obtaining $a$ and $b$ by solving one of the two instances of the DLP to obtain $a$ or $b$. If $a$ or $b$ is determined by Even, she will be able to obtain $g^{ab}$ from $g^b$ or $g^a$, respectively. If Eve does not know any efficient ways to solve the DLP in the group $(G,\cdot)$, she will have hard time to proceed in this way. 
 \end{frame} 
 
 \end{document}
