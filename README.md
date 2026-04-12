@@ -47,3 +47,6 @@ As a rule of thumb, I recommend the following:
   While LLMs operate by predicting the next word, they are quite effective at identifying common errors,
   since these same mistakes have occurred millions of times in their training data.
   As a result, they can often provide useful explanations of where your reasoning went wrong.
+- **LaTeX.** When writing math to an LLM, informal notation is usually fine, but can be ambiguous. Learning basic LaTeX helps ensure precision—and the LLM itself can help you learn it along the way.
+
+
