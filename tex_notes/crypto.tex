@@ -1,0 +1,113 @@
+\documentclass[11pt]{article}
+\usepackage{tikz} 
+
+\setlength{\parindent}{0pt}   % no paragraph indentation
+\setlength{\parskip}{0.8em}   % vertical space between paragraphs
+
+% --- Encoding & language ---
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+
+% --- Math packages ---
+\usepackage{amsmath, amssymb, amsthm}
+
+% --- Geometry (margins) ---
+\usepackage[a4paper, margin=2.5cm]{geometry}
+
+% --- Blackboard bold shortcuts ---
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\N}{\mathbb{N}}
+
+% --- Floor and ceiling ---
+\newcommand{\floor}[1]{\left\lfloor #1 \right\rfloor}
+\newcommand{\ceil}[1]{\left\lceil #1 \right\rceil}
+
+% --- Theorem environments ---
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+
+\theoremstyle{definition}
+\newtheorem{defn}[theorem]{Definition}
+\newtheorem{snapshot}[theorem]{Snapshot}
+\newtheorem{example}[theorem]{Example}
+
+\title{Cryptography: \\ Lecture Notes} 
+\author{G. Averkov} 
+
+
+
+% --- Document ---
+\begin{document}
+	
+	
+\maketitle 
+
+\begin{abstract} 
+	This is an attempt to formulate a few key ideas of cryptography as simply as possible, with the mathematical background needed presented in a self-contained fashion. We need finite groups, rings and fields, which are then applied in symmetric and asymmetric encryption methods. Regarding the asymmetric methods: RSA needs rings, ElGamal needs groups, while elliptic curve cryptography needs both fields and groups. Well-known symmetric methods need fields. In order to understand why cryptographic methods work, some ideas about the hardness need to be conveyed, at least at an intuitive level. 
+	Regarding the scope, at the very least, we want to have RSA, ElGamal and DES discussed. 
+\end{abstract} 
+
+	
+\setcounter{section}{-1}
+\section{Introduction}
+
+\subsection{Cryptography -- symmetric and asymmetric one}
+
+ 
+Alice, a  sender, wants to send a private message to Bob, the receiver. Eve, eavesdropper, may intercept data sent from Alice to Bob. So, Alice and Bob want to agree on an encryption and decryption method so that Eve wouldn't be able to read the message. 
+
+ If $M$ is a set of possible messages and $C$ is a set of the so-called ciphertexts, then an encryption is given by a function $f: M \to C$. This function needs to be injective, as otherwise Bob wouldn't be able to recover a message $m \in M$ form the ciphertext $c = f(m) \in C$ he receives. Eve may intercept $c$ and she might know $f$ but she does not directly see $m \in M$, which means that she would have to solve the equation $f(m) = c$ for the unknown $m \in M$. For the cryptosystem to be safe, this equation should be difficult to solve. 
+ 
+For the above somewhat vague description to become more definite, we need to talk about a few details. There are two basic versions of the cryptography: symmetric and asymmetric one. The asymmetric is also called public-key cryptography. When one fixes a way to encrypt and decrypt messages, one usually has a family of functions at ones disposal parametrized by keys. So, we have a set $K$ of keys and the encryption function has the key $k \in K$ as its parameter. Since in what follows we will have both a function for encryption and a function for decryption, let us call the encryption function $e_k : M \to C $ and the decryption function $d_k : M \to C$. The workflow is: one wants to send $m \in M$, encrypts it as $c = f_k(m)$ using key $k \in K$ that one has to fix in advance, and then the receiver uses $d_k$ to calculate $d_k(c) = d_k(f_k(m))$, which should be $m$, the message sent. Let's  formalize this via a definition. 
+
+\begin{defn} A cryptosystem is given by non-empty finite sets $M, C$ and $K$ of messages, ciphertexts and keys, respectively and functions $e_k : M \to C$ and $d_k : C \to M$ parametrized by $k \in K$ and satisfying $d_k(e_k(m)) = m$ for all $k \in K$ and $m \in M$. The function $e_k$ is called the encryption function and the function $d_k$ is called the decryption function. 
+\end{defn} 
+
+\begin{example} 
+	For $M = C = K =   \{0,\ldots,n-1\}$, where $n \in \Z_{\ge 2}$, consider $e_k(m) = ((m+k) \mod n)$ and $d_k(c) = ((c-k) \mod n)$, where $x \mod n$ is used to denote the remainder of the division of $x \in \Z$ by $n \in \N$. This is known as Caesar cipher. It can be used for the Latin alphabet (the case $n=26$ and the numbers $0,\ldots,25$ corresponding to $26$ letters). Clearly, the cryptosystem is by no means safe nowadays, but it introduces interesting ideas. First, is based on arithmetic calculations on a finite domain. Second, it explains how a shared secret $k$ can be used to set up encryption and decryption. Historically, the cryptosystem was convenient, because one could create easy-to-use physical devices that facilitated the process of encryption and decryption (see, for example, the confederate cipher disc in the Wikipedia article on Caesar cipher). 
+\end{example} 
+
+
+In the case of symmetric cryptography, $k$ is the shared key of Alice and Bob. It is their shared secret. So, in the symmetric case, Eve does not know the encryption function $e_k$. To know it, Eve needs to figure out what $k \in K$. The symmetry here stems from the fact that Alice and Bob have the same state of knowledge: they both have their shared secret $k$. But where do they have their shared secret from? If they come together and meet in private, agreeing on some $k \in K$, they have a shared secrete. If, however, they are not able to meet in person, because they are very far apart (say, on different continents), one needs more ideas on how to establish a shared secret. And some ideas that one has developed a while ago lead to what is known as asymmetric cryptography. 
+
+One way to explain asymmetric cryptography through the definition of the cryptosystem is this. The key $k \in K$ is public and is available to everyone so that everyone including Alice, who wants to encrypt messages sent to Bob, and Eve who wants to figure out what messages Alice sends to Bob. However, while the decryption function $d_k$ is uniquely determined through the public key $k$, it hard to express explicitly. A vague analogy would be this. Imagine, messages were positive real numbers $m \in \R_{>0}$ and the encryption would be taking the third power $m \mapsto m^3$, where the power $3$ is a public key available to everyone. Taking third power is not a big problem, it's just multiplication $m \cdot m \cdot m$ of three copies of $m$ with itself, which is kind of easy. However, the decryption is taking the cubic root $c = m^3 \mapsto c^{1/3} = m$, and taking cubic roots is hard to do (say, in school, you did not learn how to do that). Maybe, the analogy is not absolutely perfect but might help to digest the idea a little. What is important is this: when Bob sets up a public-key cryptosystem he relies on data that allow him to know $d_k$ and $e_k$ explicitly. So, Bob knows both $e_k$ and $d_k$, but the public only knows $e_k$ and, while in principle $k$ available to everyone uniquely determines the decryption function $d_k$, it's just hard to had an access to an explicit formula for this function, which one would use in a routine fashion to do the decryption. This also explains why asymmetric cryptography is called asymmetric. Bob knows something that the public does not know -- this something is the so-called private key, certain private information of Bob that allows him to do decryption efficiently. 
+
+Computationally, asymmetric cryptography is more expensive when the symmetric cryptography. So, the usual way to go is establish a shared private information via asymmetric cryptography and then use that information as a shared private key in symmetric communication channel. From that perspective, the logical first step is to consider asymmetric cryptography and then move over to the symmetric one. 
+
+Trying to break a cryptosystem to asses its safety is called cryptanalysis. So, cryptography can be perceived as a game, in which one party suggests a cryptosystem and the other party tries to break it to understand if it's safe or not. On the mathematical level, breaking a cryptosystem boils down to solving an equation $f(m) = c$ for the unknown $m$. As cryptography deals with digital data, equations that occur in cryptography are considered over finite structures. Different sorts of algebraic structures are helpful for that purpose. Algebra provides means to create a big variety of interesting structures, both finite and infinite ones. The three fundamental structures in algebra are groups, rings and fields, all three being relevant for cryptography. 
+
+
+\subsection{Mathematical background}
+
+The cryptography is driven by mathematics and computer science. General math, discrete math, algebra, theory of algorithms, computational complexity and probability theory are all relevant for cryptography. Regarding the general math, the abilities that a learner needs to have are these: 
+\begin{enumerate} 
+	\item Defining technical notions and technical notation and relying on the definitions while reasoning. 
+	\item Reasoning by giving clearly formulated statements. 
+	\item Explicitly declaring objects and notations that are part of the statements. 
+	\item Linking parts of the statement in a non-ambiguous fashion to each other so that their interrelation is clear. 
+	\item Ability to understand and  make abstract arguments. 
+	\item Ability to apply abstract concepts and arguments in concrete situations. This includes applying definitions in concrete situations. 
+	\item Ability to make clear statements using phrases "for each" and "exists" either by making use of quantifiers or with words. 
+	\item Ability to make statements, in which assumptions and assertions are clearly phrased. 
+	\item Ability to distinguish between an implication and an equivalence in reasoning chains and in statements of results. 
+	\item Ability to explain a computation (like solving an equation) as a sequence of arguments. 
+\end{enumerate} 
+
+The concrete areas of mathematics that are directly helpful for cryptography are: 
+\begin{enumerate} 
+	\item Basic mathematics involving notions like set, Cartesian product, predicate, quantifer, function, injective function, surjective function, bijective function, relation. This kind of math helps make any kind of math statements. 
+	\item Basic number theory. Math related to the arithmetic of integer numbers. 
+	\item Basic algebra (groups, rings, fields). 
+	\item Theory of vector spaces. 
+\end{enumerate} 
+
+
+ 
+
+
+
+
+\end{document}
