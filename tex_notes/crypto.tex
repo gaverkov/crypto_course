@@ -31,6 +31,7 @@
 
 \theoremstyle{definition}
 \newtheorem{defn}[theorem]{Definition}
+\newtheorem{rem}[theorem]{Remark} 
 \newtheorem{snapshot}[theorem]{Snapshot}
 \newtheorem{example}[theorem]{Example}
 
@@ -104,25 +105,36 @@ The concrete areas of mathematics that are directly helpful for cryptography are
 	\item Theory of vector spaces. 
 \end{enumerate} 
 
-In what follows, I will give snapshots to point to common issues related to the usage of math. Here is an example: 
+
+Here is an example of a definition. 
+
+\begin{defn} 
+	A function $f: X \to Y$ is called injective if for all $x_1,x_2 \in X$ satisfying $x_1 \ne x_2$, one has $f(x_1) \ne f(x_2)$. 
+\end{defn} 
+
+This definition prescribes the meaning of the word "injective", which we all can rely upon, once this meaning has been given. When we give this definition, we already rely on the definition of the function that should have been given before and on the notation $f: X \to Y$ that has been introduced along with this definition. As we do not start math from scratch, we don't give these definitions here in the notes. But if you use the notion of function and the notation $f: X \to Y$ you are supposed to know the exact meaning of it. 
+
+In what follows, I will give snapshots to point to common issues related to the usage of math. Snapshots are going to be snippets of texts that have seen before. 
+
 
 \begin{snapshot} 
-	{ \color{blue} A function is called injective if $x_1 \ne x_2$ $\Rightarrow$ $f(x_1) \ne f(x_2)$. }
+	{ \color{blue} A function is called injective if $x_1 \ne x_2$ $\Rightarrow$ $f(x_1) \ne f(x_2)$. {\color{red} ("A function" not linked to the subsequent formulas, none of the symbols $x_1,x_2, f$ declared)}}
 	
 	Why is this statement ambiguous? First, you refer to a function and then the symbol $f$ appears below, however the symbol $f$ has never been declared as a function you want to talk about. Second, neither $x_1$ nor $x_2$ have been declared. What are they? What set do they come from? Apart from this, when you just put objects $x_1$ and $x_2$ into a statement, not saying how they are quantified, there is a danger of confusion, especially when there is an alternation of "there exists" and "for all" quantifiers. 
-	
-	Correction: 
-	
-	{ \color{blue} A function {\color{red} $f : X \to Y$} is called injective if {\color{red} for all $x_1, x_2 \in X$ with $x_1 \ne x_2$ one has}  $f(x_1) \ne f(x_2)$ }
+
 \end{snapshot} 
 
 \begin{snapshot} 
-	{ \color{blue} A function $f: X \to Y$ is called injective if $x \in X, y \in Y, x \ne y$ $\Rightarrow$ $f(x) \ne f(y)$. }
+	{ \color{blue} A function $f: X \to Y$ is called injective if {\color{red} (quantifiers missing)} $x \in X, y \in Y$ , $x \ne y$ $\Rightarrow$ $f(x) \ne f(y)$. {\color{red} (usage of $y$ inconsistent with the definition of $f$) }}
 	
 	Here the inconsistency comes comes from the fact that the notation $f: X \to Y$ announces that $f$ can take input from $X$ and produces output in $Y$. So, that declaration contradicts the usage of $f(y)$ on $y \in Y$, because $f$ may not be defined on $Y$. As an example, you can take the length operator from Python. It may take strings as an input and its output is an integer, but it won't be able to take an integer as an input. 
 \end{snapshot} 
 
+ \begin{rem} 
+ 	I was asked to explain the notions of definition, notation and axiom. Definition is a declaration of an exact meaning for a word or phrase. Notation is a declaration of an exact meaning for a formula or a symbol. What is important is that all participants of a discussion, say teachers and students of a particular course, agree on the same definitions so that they work in the same scope. In that case, when one uses, say, the notion of a ring, everyone taking part in a scientific discussion has the same meaning attached to the word ring. Consequently, the statements about rings will be interpreted in a unique fashion by everyone taking part in the discussion. 
  
+	A practical way to understand the word axiom, without going into the meta-mathematical depths is this. Some definitions are based on the list of properties. In this case, the properties from the list are called axioms. But of course, one could also have said defining properties. For example, one could say axioms of groups, axioms of rings, axioms of fields, axioms of vector spaces. Or, one can say defining properties, too. 
+ \end{rem} 
 
 
 
