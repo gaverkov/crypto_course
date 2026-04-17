@@ -54,7 +54,7 @@
 \setcounter{section}{-1}
 \section{Introduction}
 
-\subsection{Cryptography -- symmetric and asymmetric one}
+\subsection{Cryptography -- symmetric and asymmetric}
 
  
 Alice, a  sender, wants to send a private message to Bob, the receiver. Eve, eavesdropper, may intercept data sent from Alice to Bob. So, Alice and Bob want to agree on an encryption and decryption method so that Eve wouldn't be able to read the message. 
@@ -104,6 +104,23 @@ The concrete areas of mathematics that are directly helpful for cryptography are
 	\item Theory of vector spaces. 
 \end{enumerate} 
 
+In what follows, I will give snapshots to point to common issues related to the usage of math. Here is an example: 
+
+\begin{snapshot} 
+	{ \color{blue} A function is called injective if $x_1 \ne x_2$ $\Rightarrow$ $f(x_1) \ne f(x_2)$. }
+	
+	Why is this statement ambiguous? First, you refer to a function and then the symbol $f$ appears below, however the symbol $f$ has never been declared as a function you want to talk about. Second, neither $x_1$ nor $x_2$ have been declared. What are they? What set do they come from? Apart from this, when you just put objects $x_1$ and $x_2$ into a statement, not saying how they are quantified, there is a danger of confusion, especially when there is an alternation of "there exists" and "for all" quantifiers. 
+	
+	Correction: 
+	
+	{ \color{blue} A function {\color{red} $f : X \to Y$} is called injective if {\color{red} for all $x_1, x_2 \in X$ with $x_1 \ne x_2$ one has}  $f(x_1) \ne f(x_2)$ }
+\end{snapshot} 
+
+\begin{snapshot} 
+	{ \color{blue} A function $f: X \to Y$ is called injective if $x \in X, y \in Y, x \ne y$ $\Rightarrow$ $f(x) \ne f(y)$. }
+	
+	Here the inconsistency comes comes from the fact that the notation $f: X \to Y$ announces that $f$ can take input from $X$ and produces output in $Y$. So, that declaration contradicts the usage of $f(y)$ on $y \in Y$, because $f$ may not be defined on $Y$. As an example, you can take the length operator from Python. It may take strings as an input and its output is an integer, but it won't be able to take an integer as an input. 
+\end{snapshot} 
 
  
 
