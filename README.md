@@ -139,4 +139,11 @@ Roughly speaking:
 - Typically, one combines symmetric and asymmetric cryptography: communication starts asymmetrically and then continues symmetrically.
 - Algebraic structures: groups (arbitrary, Abelian), rings (unitary, commutative), fields.
 
+# Week 3
+
+- The [binary GCD algorithm](https://en.wikipedia.org/wiki/Binary_GCD_algorithm) does not use long division, which is an advantage. 
+There is also an extended version of that algorithm.
+I was struggling to understand the extended in the presentation that does not use invariants [in the handbook of applied cryptography](https://cacr.uwaterloo.ca/hac/about/chap14.pdf#page=17), but eventually found [another presentation](https://fractalyze.gitbook.io/intro/primitives/euclidean-algorithm/extended-binary-euclidean-algorithm) that explains it in terms of invariants and  makes the algorithm clear.
+This another example of a situation when knowing an algorithm from its invariants brings clarity. 
+
   
