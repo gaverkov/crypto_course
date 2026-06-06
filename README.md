@@ -1,5 +1,11 @@
 # Cryptography SoSe 2026
 
+## Some random interesting material 
+
+- [Dual EC algorithm: a standardized backdoor](https://projectbullrun.org/dual-ec/documents/dual-ec-20150731.pdf). A thought-provoking thriller with the elements of the public key cryptography. 
+- [Tonelli-Shanks algorithm](https://en.wikipedia.org/wiki/Tonelli%E2%80%93Shanks_algorithm). Computing the square root (relevant for the compressed veresion of the EC cryptography). 
+- [Curve 25512 paper](https://cr.yp.to/ecdh/curve25519-20051115.pdf). Discussion of the details on how an EC is selected for practical cryprographic applications, including algebraic, geometric, algorithmic, hardware related and security related details. 
+
 ## Organizational stuff
 
 We have lectures and exercise classes, but no tutorial sessions. Florian will be giving the exercise classes.
